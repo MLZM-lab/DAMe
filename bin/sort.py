@@ -66,5 +66,5 @@ PrintSortedCollapsedCountedSeqs(HAP)
 PrintSummaryFile(HAP)
 
 ## Report how many seqs had errors in the primer or in the tags
-print "Number of sequences with sequencing errors in the primer or in the tags: "+str(CountErrors)
+print "Number of erroneous sequences (with errors in the sequence of primer or tags, or no barcode amplified): "+str(CountErrors)
 

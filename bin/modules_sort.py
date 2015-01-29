@@ -81,16 +81,19 @@ def GetPiecesInfo(line, PRIMERS, TAGS, keepPrimersSeq):
 					primFinPosTags=primFinPos[0][1]
 				PrimerName=key
 				between=line[primIniPosPrim:primFinPosPrim]  
-				#Figure out the names of the tags
-				tag1= line[:primIniPosTags]    
-				tag2= line[primFinPosTags:]
-				tagName1= [tagName for tagName in TAGS if TAGS[tagName][0]==tag1] 
-				tagName2= [tagName for tagName in TAGS if TAGS[tagName][1]==tag2]  
-				if len(tagName1)>0 and len(tagName2)>0:
-					tagName1=tagName1[0]
-					tagName2=tagName2[0]
-				else: #If there was a seq error in the tags
+				if len(between)==0:    #If the seq only contained primers and no amplified barcode
 					return [1]
+				else:
+					#Figure out the names of the tags
+					tag1= line[:primIniPosTags]    
+					tag2= line[primFinPosTags:]
+					tagName1= [tagName for tagName in TAGS if TAGS[tagName][0]==tag1] 
+					tagName2= [tagName for tagName in TAGS if TAGS[tagName][1]==tag2]  
+					if len(tagName1)>0 and len(tagName2)>0:
+						tagName1=tagName1[0]
+						tagName2=tagName2[0]
+					else: #If there was a seq error in the tags
+						return [1]
 			else:
 				return [1]
 		else:  #For a reverse seq
@@ -112,18 +115,21 @@ def GetPiecesInfo(line, PRIMERS, TAGS, keepPrimersSeq):
 						primFinPosTags=primFinPos[0][1] 
 					PrimerName=key
 					between=line[primIniPosPrim:primFinPosPrim]  
-					between=RC(between)  ## Since this is a reverse seq, reverse complement the sequence
-					#Figure out the names of the tags
-					# here the tags used are reversed because the seq was reversed. Tag1 is tag2 and tag2 is tag1
-					tag1= line[:primIniPosTags]    
-					tag2= line[primFinPosTags:]
-					tagName2= [tagName for tagName in TAGS if TAGS[tagName][0]==tag1]  
-					tagName1= [tagName for tagName in TAGS if TAGS[tagName][1]==tag2]  
-					if len(tagName1)>0 and len(tagName2)>0:
-						tagName1=tagName1[0]
-						tagName2=tagName2[0]
-					else: #If there was a seq error in the tags
+					if len(between)==0:
 						return [1]
+					else:
+						between=RC(between)  ## Since this is a reverse seq, reverse complement the sequence
+						#Figure out the names of the tags
+						# here the tags used are reversed because the seq was reversed. Tag1 is tag2 and tag2 is tag1
+						tag1= line[:primIniPosTags]    
+						tag2= line[primFinPosTags:]
+						tagName2= [tagName for tagName in TAGS if TAGS[tagName][0]==tag1]  
+						tagName1= [tagName for tagName in TAGS if TAGS[tagName][1]==tag2]  
+						if len(tagName1)>0 and len(tagName2)>0:
+							tagName1=tagName1[0]
+							tagName2=tagName2[0]
+						else: #If there was a seq error in the tags
+							return [1]
 				else:
 					return [1]
 			else:

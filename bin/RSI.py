@@ -46,7 +46,7 @@ with open(args[0]) as file:
 		data.append([q for q in parts])
 data = numpy.array(data)
 names = set([row[0] for row in data])
-no_rep = len(data[0])-1
+no_rep = (len(data[0])-2)/2
 if no_rep < 2:
 	print('There are no replicates in the file.')
 	sys.exit(0)
@@ -60,7 +60,7 @@ for i in names:
 	if options.explicit:
 		for A in range(1,no_rep):
 			for B in range(A+1,no_rep+1):
-				sample = subset[:, [A,B]]
+				sample = subset[:, [A*2,B*2]]
 				sample = sample.astype(int)
 				output = compare(sample,i,A,B)
 				rkn.append([i,A,B,output])
@@ -68,7 +68,7 @@ for i in names:
 	else:
 		for A in range(1,no_rep):
 			for B in range(A+1,no_rep+1):
-				sample = subset[:, [A,B]]
+				sample = subset[:, [A*2,B*2]]
 				sample = sample.astype(int)
 				output += compare(sample,i,A,B)
 				rep=rep+1
