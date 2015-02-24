@@ -17,12 +17,12 @@ def makePSnumFiles(PSinfo, X, P, chimeraChecked):
 		residue=NR%X
 		if residue != 0:
 			if not chimeraChecked:
-				PSouts[residue-1].write("%s_%s_%s.txt\n"%(psinfo[1], psinfo[2], psinfo[3]))
+				PSouts[residue-1].write("pool%s/%s_%s.txt\n"%(psinfo[3], psinfo[1], psinfo[2]))
 			else:
 				PSouts[residue-1].write("%s_%s_%s.noChim.txt\n"%(psinfo[1], psinfo[2], psinfo[3]))
 		else:
 			if not chimeraChecked:
-				PSouts[X-1].write("%s_%s_%s.txt\n"%(psinfo[1], psinfo[2], psinfo[3]))
+				PSouts[X-1].write("pool%s/%s_%s.txt\n"%(psinfo[3], psinfo[1], psinfo[2]))
 			else:
 				PSouts[X-1].write("%s_%s_%s.noChim.txt\n"%(psinfo[1], psinfo[2], psinfo[3]))
 	#Close handlers
